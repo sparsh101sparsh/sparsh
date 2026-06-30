@@ -466,17 +466,20 @@
     let gridRows = 0;
     let gridCols = 0;
     let animationId = null;
-    const mouse = { x: null, y: null, radius: 180, radiusSq: 180 * 180 };
+    
+    // Force supersampling (minimum 2x) to create a gorgeous dense mesh effect instead of jagged dots
+    const dpr = Math.max(2, window.devicePixelRatio || 1);
+    const mouse = { x: null, y: null, radius: 180 * dpr, radiusSq: (180 * dpr) * (180 * dpr) };
 
     window.addEventListener('mousemove',  e => { 
-        mouse.x = e.clientX; 
-        mouse.y = e.clientY; 
+        mouse.x = e.clientX * dpr; 
+        mouse.y = e.clientY * dpr; 
         if (!animationId && particles.length > 0) animationId = requestAnimationFrame(draw);
     });
     window.addEventListener('mouseout',   () => { mouse.x = null; mouse.y = null; });
     window.addEventListener('touchmove',  e => { 
-        mouse.x = e.touches[0].clientX; 
-        mouse.y = e.touches[0].clientY; 
+        mouse.x = e.touches[0].clientX * dpr; 
+        mouse.y = e.touches[0].clientY * dpr; 
         if (!animationId && particles.length > 0) animationId = requestAnimationFrame(draw);
     }, { passive: true });
     window.addEventListener('touchend',   () => { mouse.x = null; mouse.y = null; });
@@ -514,8 +517,8 @@
             gridCols = 0;
             for (const l of lines) if (l.length > gridCols) gridCols = l.length;
 
-            canvas.width  = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width  = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
 
             const off = document.createElement('canvas');
             // PERFORMANCE: Shrink offscreen canvas to match grid exactly (e.g. 270x77) instead of 4K screen. 
