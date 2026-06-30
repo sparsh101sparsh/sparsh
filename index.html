@@ -524,13 +524,14 @@
             offCtx.drawImage(img, 0, 0, cols, rows);
             const px = offCtx.getImageData(0, 0, cols, rows).data;
 
-            // ASPECT RATIO FIX: Calculate font size to "contain" the screen while maintaining text proportions
-            // A minimum of 5px ensures it doesn't become microscopic on mobile devices
-            const fontSize = Math.max(5, Math.min(canvas.width / (cols * 0.6), canvas.height / rows));
-            const cw = fontSize * 0.6;
-            const ch = fontSize * 1.0;
+            // PERFECT ASPECT RATIO FIX:
+            // 1. The artwork was generated with a 0.5 character aspect ratio (height is 2x width).
+            // 2. We scale the grid to 'cover' the screen to fill the background.
+            const baseSize = Math.max(canvas.width / (cols * 0.5), canvas.height / rows);
+            const cw = baseSize * 0.5;
+            const ch = baseSize * 1.0;
             
-            // Center the grid on the screen
+            // Center the grid on the screen (crops overflow evenly)
             const offsetX = (canvas.width - (cols * cw)) / 2;
             const offsetY = (canvas.height - (rows * ch)) / 2;
 
@@ -574,7 +575,11 @@
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const rows = 77, cols = 270;
-        const fs = Math.max(5, Math.min(canvas.width / (cols * 0.6), canvas.height / rows));
+        const baseSize = Math.max(canvas.width / (cols * 0.5), canvas.height / rows);
+        const cw = baseSize * 0.5;
+        // JetBrains Mono has a 0.6 aspect ratio. To fit perfectly in our 0.5 cw without overlapping, 
+        // we scale the font size to cw / 0.6
+        const fs = cw / 0.6;
         ctx.font = `bold ${fs}px 'JetBrains Mono', monospace`;
         ctx.textAlign    = 'center';
         ctx.textBaseline = 'middle';
