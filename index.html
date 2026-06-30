@@ -26,6 +26,9 @@
             height: 100vh;
             z-index: 0;
             display: block;
+            /* Start grayscale for the color reveal animation */
+            filter: grayscale(100%);
+            transition: filter 3s ease;
         }
 
         #loading {
@@ -388,7 +391,7 @@
     const loadEl = document.getElementById('loading');
 
     let particles = [];
-    const mouse = { x: null, y: null, radius: 180 };
+    const mouse = { x: null, y: null, radius: 180, radiusSq: 180 * 180 };
 
     window.addEventListener('mousemove',  e => { mouse.x = e.clientX; mouse.y = e.clientY; });
     window.addEventListener('mouseout',   () => { mouse.x = null;     mouse.y = null; });
@@ -413,8 +416,10 @@
         update() {
             if (mouse.x !== null) {
                 const dx = mouse.x - this.x, dy = mouse.y - this.y;
-                const d  = Math.sqrt(dx*dx + dy*dy);
-                if (d < mouse.radius) {
+                const distSq = dx*dx + dy*dy;
+                // Performance: only run Math.sqrt if within radius bounding box
+                if (distSq < mouse.radiusSq) {
+                    const d = Math.sqrt(distSq);
                     const f = (mouse.radius - d) / mouse.radius;
                     this.x -= (dx/d) * f * this.density * 1.5;
                     this.y -= (dy/d) * f * this.density * 1.5;
@@ -469,13 +474,25 @@
                     const ix   = Math.min(Math.floor(posX), canvas.width  - 1);
                     const iy   = Math.min(Math.floor(posY), canvas.height - 1);
                     const i4   = (iy * canvas.width + ix) * 4;
+                    
+                    // PERFORMANCE BOOST: Skip extremely dark pixels that are invisible on a black background
+                    if (px[i4] < 8 && px[i4+1] < 8 && px[i4+2] < 8) continue;
+
                     particles.push(new Particle(posX, posY, char,
                         `rgb(${px[i4]},${px[i4+1]},${px[i4+2]})`, canvas.width, canvas.height));
                 }
             }
 
+            // PERFORMANCE BOOST: Sort array by color. This minimizes expensive ctx.fillStyle state changes per frame.
+            particles.sort((a, b) => a.color.localeCompare(b.color));
+
             loadEl.style.display = 'none';
             requestAnimationFrame(draw);
+
+            // COLOR REVEAL ANIMATION: Wait 1.5s then smoothly transition canvas from grayscale to full color
+            setTimeout(() => {
+                canvas.style.filter = 'grayscale(0%)';
+            }, 1500);
 
             // Trigger UI reveal after particles assemble
             setTimeout(() => {
