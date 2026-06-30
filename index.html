@@ -524,8 +524,14 @@
             offCtx.drawImage(img, 0, 0, cols, rows);
             const px = offCtx.getImageData(0, 0, cols, rows).data;
 
-            const cw = canvas.width  / cols;
-            const ch = canvas.height / rows;
+            // ASPECT RATIO FIX: Calculate font size to "cover" the screen without squashing characters
+            const fontSize = Math.max(canvas.width / (cols * 0.6), canvas.height / rows);
+            const cw = fontSize * 0.6;
+            const ch = fontSize * 1.0;
+            
+            // Center the grid on the screen
+            const offsetX = (canvas.width - (cols * cw)) / 2;
+            const offsetY = (canvas.height - (rows * ch)) / 2;
 
             particles = [];
             for (let r = 0; r < rows; r++) {
@@ -533,8 +539,9 @@
                 for (let c = 0; c < line.length; c++) {
                     const char = line[c];
                     if (char === ' ') continue;
-                    const posX = c * cw + cw / 2;
-                    const posY = r * ch + ch / 2;
+                    
+                    const posX = offsetX + c * cw + cw / 2;
+                    const posY = offsetY + r * ch + ch / 2;
                     
                     // Directly map the grid row/col to the tiny offscreen canvas pixels
                     const i4 = (r * cols + c) * 4;
@@ -566,9 +573,8 @@
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const rows = 77, cols = 270;
-        const cw = canvas.width / cols, ch = canvas.height / rows;
-        const fs = Math.min(cw * 1.8, ch * 1.2);
-        ctx.font = `bold ${fs}px monospace`;
+        const fs = Math.max(canvas.width / (cols * 0.6), canvas.height / rows);
+        ctx.font = `bold ${fs}px 'JetBrains Mono', monospace`;
         ctx.textAlign    = 'center';
         ctx.textBaseline = 'middle';
 
