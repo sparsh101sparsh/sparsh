@@ -505,19 +505,21 @@
                 i.src = 'data:image/jpeg;base64,' + document.getElementById('img-data').textContent.trim();
             });
 
+            const rows = lines.length;
+            let   cols = 0;
+            for (const l of lines) if (l.length > cols) cols = l.length;
+
             canvas.width  = window.innerWidth;
             canvas.height = window.innerHeight;
 
             const off = document.createElement('canvas');
-            off.width  = canvas.width;
-            off.height = canvas.height;
+            // PERFORMANCE: Shrink offscreen canvas to match grid exactly (e.g. 270x77) instead of 4K screen. 
+            // This makes getImageData instant and uses almost zero memory.
+            off.width  = cols;
+            off.height = rows;
             const offCtx = off.getContext('2d');
-            offCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            const px = offCtx.getImageData(0, 0, canvas.width, canvas.height).data;
-
-            const rows = lines.length;
-            let   cols = 0;
-            for (const l of lines) if (l.length > cols) cols = l.length;
+            offCtx.drawImage(img, 0, 0, cols, rows);
+            const px = offCtx.getImageData(0, 0, cols, rows).data;
 
             const cw = canvas.width  / cols;
             const ch = canvas.height / rows;
@@ -530,9 +532,9 @@
                     if (char === ' ') continue;
                     const posX = c * cw + cw / 2;
                     const posY = r * ch + ch / 2;
-                    const ix   = Math.min(Math.floor(posX), canvas.width  - 1);
-                    const iy   = Math.min(Math.floor(posY), canvas.height - 1);
-                    const i4   = (iy * canvas.width + ix) * 4;
+                    
+                    // Directly map the grid row/col to the tiny offscreen canvas pixels
+                    const i4 = (r * cols + c) * 4;
                     
                     // PERFORMANCE BOOST: Aggressive culling of dark shadow pixels to drastically reduce rendering load
                     if (px[i4] < 28 && px[i4+1] < 28 && px[i4+2] < 28) continue;
@@ -542,8 +544,9 @@
                 }
             }
 
-            // PERFORMANCE BOOST: Sort array by color. This minimizes expensive ctx.fillStyle state changes per frame.
-            particles.sort((a, b) => a.color.localeCompare(b.color));
+            // PERFORMANCE BOOST: Simple string comparison instead of localeCompare. 
+            // localeCompare on 7,000 items freezes the main thread, this is instant.
+            particles.sort((a, b) => (a.color < b.color ? -1 : 1));
 
             if (!animationId) animationId = requestAnimationFrame(draw);
 
