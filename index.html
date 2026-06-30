@@ -463,6 +463,8 @@
     ctx.imageSmoothingEnabled = false;
 
     let particles = [];
+    let gridRows = 0;
+    let gridCols = 0;
     let animationId = null;
     const mouse = { x: null, y: null, radius: 180, radiusSq: 180 * 180 };
 
@@ -508,9 +510,9 @@
                 i.src = 'data:image/jpeg;base64,' + document.getElementById('img-data').textContent.trim();
             });
 
-            const rows = lines.length;
-            let   cols = 0;
-            for (const l of lines) if (l.length > cols) cols = l.length;
+            gridRows = lines.length;
+            gridCols = 0;
+            for (const l of lines) if (l.length > gridCols) gridCols = l.length;
 
             canvas.width  = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -518,35 +520,27 @@
             const off = document.createElement('canvas');
             // PERFORMANCE: Shrink offscreen canvas to match grid exactly (e.g. 270x77) instead of 4K screen. 
             // This makes getImageData instant and uses almost zero memory.
-            off.width  = cols;
-            off.height = rows;
+            off.width  = gridCols;
+            off.height = gridRows;
             const offCtx = off.getContext('2d');
-            offCtx.drawImage(img, 0, 0, cols, rows);
-            const px = offCtx.getImageData(0, 0, cols, rows).data;
+            offCtx.drawImage(img, 0, 0, gridCols, gridRows);
+            const px = offCtx.getImageData(0, 0, gridCols, gridRows).data;
 
-            // PERFECT ASPECT RATIO FIX:
-            // 1. The artwork was generated with a 0.5 character aspect ratio (height is 2x width).
-            // 2. We scale the grid to 'cover' the screen to fill the background.
-            const baseSize = Math.max(canvas.width / (cols * 0.5), canvas.height / rows);
-            const cw = baseSize * 0.5;
-            const ch = baseSize * 1.0;
-            
-            // Center the grid on the screen (crops overflow evenly)
-            const offsetX = (canvas.width - (cols * cw)) / 2;
-            const offsetY = (canvas.height - (rows * ch)) / 2;
+            const cw = canvas.width  / gridCols;
+            const ch = canvas.height / gridRows;
 
             particles = [];
-            for (let r = 0; r < rows; r++) {
+            for (let r = 0; r < gridRows; r++) {
                 const line = lines[r];
                 for (let c = 0; c < line.length; c++) {
                     const char = line[c];
                     if (char === ' ') continue;
                     
-                    const posX = offsetX + c * cw + cw / 2;
-                    const posY = offsetY + r * ch + ch / 2;
+                    const posX = c * cw + cw / 2;
+                    const posY = r * ch + ch / 2;
                     
                     // Directly map the grid row/col to the tiny offscreen canvas pixels
-                    const i4 = (r * cols + c) * 4;
+                    const i4 = (r * gridCols + c) * 4;
                     
                     // PERFORMANCE BOOST: Aggressive culling of dark shadow pixels to drastically reduce rendering load
                     if (px[i4] < 28 && px[i4+1] < 28 && px[i4+2] < 28) continue;
@@ -574,12 +568,8 @@
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const rows = 77, cols = 270;
-        const baseSize = Math.max(canvas.width / (cols * 0.5), canvas.height / rows);
-        const cw = baseSize * 0.5;
-        // JetBrains Mono has a 0.6 aspect ratio. To fit perfectly in our 0.5 cw without overlapping, 
-        // we scale the font size to cw / 0.6
-        const fs = cw / 0.6;
+        const cw = canvas.width / gridCols, ch = canvas.height / gridRows;
+        const fs = Math.min(cw * 1.8, ch * 1.2);
         ctx.font = `bold ${fs}px 'JetBrains Mono', monospace`;
         ctx.textAlign    = 'center';
         ctx.textBaseline = 'middle';
