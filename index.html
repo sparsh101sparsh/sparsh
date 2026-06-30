@@ -467,9 +467,9 @@
     let gridCols = 0;
     let animationId = null;
     
-    // Force supersampling (minimum 2x) to create a gorgeous dense mesh effect instead of jagged dots
-    const dpr = Math.max(2, window.devicePixelRatio || 1);
-    const mouse = { x: null, y: null, radius: 180 * dpr, radiusSq: (180 * dpr) * (180 * dpr) };
+    // Force supersampling (minimum 2x) to create a gorgeous dense mesh effect instead of thin scattered dots
+    let dpr = Math.max(window.devicePixelRatio || 1, 2);
+    const mouse = { x: null, y: null, radius: 90 * dpr, radiusSq: (90 * dpr) * (90 * dpr) };
 
     window.addEventListener('mousemove',  e => { 
         mouse.x = e.clientX * dpr; 
@@ -497,7 +497,7 @@
             this.y = (Math.random() - 0.5) * ch_screen * 1.5 + ch_screen / 2;
             
             // Random easing for organic, non-uniform assembly
-            this.easing = Math.random() * 0.04 + 0.02; // between 0.02 and 0.06
+            this.easing = Math.random() * 0.015 + 0.01; // between 0.01 and 0.025 (slower)
         }
     }
 
@@ -574,7 +574,7 @@
             // Trigger UI reveal after particles assemble
             setTimeout(() => {
                 document.body.classList.add('show-ui');
-            }, 2500); // Wait 2.5s for the majestic particle assembly
+            }, 3800); // Wait 3.8s for the majestic particle assembly
 
         } catch(e) {
             console.error(e);
