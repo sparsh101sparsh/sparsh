@@ -26,6 +26,8 @@
             height: 100vh;
             z-index: 0;
             display: block;
+            will-change: transform;
+            contain: strict;
         }
 
         /* ─── INITIAL HIDDEN STATE & ANIMATIONS ─── */
@@ -458,6 +460,7 @@
 <script>
     const canvas = document.getElementById('canvas');
     const ctx    = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
 
     let particles = [];
     let animationId = null;
