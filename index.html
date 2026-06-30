@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fallen Angel ASCII Art</title>
+    <title>Sparsh | Portfolio</title>
+    <!-- Modern, elegant font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body, html {
             background-color: #000;
@@ -11,26 +13,268 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Courier New", Courier, monospace;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
+        
+        /* Canvas Background */
         canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
             display: block;
         }
+        
         #loading {
             color: #d32f2f;
-            position: absolute;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-size: 20px;
             text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        /* Portfolio Overlay */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            padding: 10vh 5vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            /* Allow mouse interaction with canvas below where there's no glass panel */
+            pointer-events: none; 
+        }
+        
+        .glass-panel {
+            /* Re-enable interactions for links/text inside the panel */
+            pointer-events: auto; 
+            background: rgba(10, 10, 10, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease;
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Staggered entrance animation */
+        .glass-panel:nth-child(1) { animation-delay: 0.1s; }
+        .glass-panel:nth-child(2) { animation-delay: 0.3s; }
+        .glass-panel:nth-child(3) { animation-delay: 0.5s; }
+
+        .glass-panel:hover {
+            border-color: rgba(255, 77, 77, 0.3);
+            transform: translateY(-4px);
+        }
+
+        header h1 {
+            margin: 0 0 15px 0;
+            font-size: 3.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 0%, #ff4d4d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: #999;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .social-links a:hover {
+            color: #ff4d4d;
+        }
+
+        .social-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #ff4d4d;
+            transition: width 0.3s ease;
+        }
+
+        .social-links a:hover::after {
+            width: 100%;
+        }
+
+        section h2 {
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            color: #f0f0f0;
+            letter-spacing: -0.5px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 1.8rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 77, 77, 0.2);
+        }
+
+        .project-card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+            color: #ff4d4d;
+        }
+
+        .project-card p {
+            color: #bbb;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .project-link {
+            align-self: flex-start;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.2s;
+        }
+        
+        .project-link:hover {
+            color: #ff4d4d;
+        }
+
+        .contact {
+            text-align: center;
+        }
+        
+        .contact p {
+            color: #bbb;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 36px;
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid #ff4d4d;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .btn:hover {
+            background: #ff4d4d;
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff4d4d;
         }
     </style>
 </head>
 <body>
-    <div id="loading">Loading particles...</div>
+    <div id="loading">Summoning particles...</div>
     <canvas id="canvas"></canvas>
+    
+    <div class="content-wrapper">
+        <header class="glass-panel">
+            <h1>Sparsh</h1>
+            <div class="social-links">
+                <a href="https://twitter.com/sparsh" target="_blank">Twitter</a>
+                <a href="https://linkedin.com/in/sparsh" target="_blank">LinkedIn</a>
+                <a href="https://github.com/sparsh101sparsh" target="_blank">GitHub</a>
+            </div>
+        </header>
+        
+        <main style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 40px;">
+            <section class="projects glass-panel">
+                <h2>Projects</h2>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h3>Interactive ASCII Art</h3>
+                        <p>A high-performance particle system built with HTML5 Canvas that transforms static ASCII art into a reactive, physics-based masterpiece.</p>
+                        <a href="https://github.com/sparsh101sparsh/wallpaper" class="project-link">View Source ➔</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>Coming Soon</h3>
+                        <p>More exciting and highly aesthetic projects are currently in development. Stay tuned for amazing web experiences.</p>
+                        <a href="#" class="project-link">Learn More ➔</a>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="contact glass-panel">
+                <h2>Contact Me</h2>
+                <p>Always open to exciting opportunities, creative collaborations, and building amazing experiences. Let's connect!</p>
+                <a href="mailto:contact@sparsh.dev" class="btn">Say Hello</a>
+            </section>
+        </main>
+    </div>
     
     <script>
         const canvas = document.getElementById('canvas');
@@ -38,14 +282,15 @@
         const loading = document.getElementById('loading');
         
         let particles = [];
-        let mouse = { x: null, y: null, radius: 150 };
+        // Increased radius for a great scatter effect behind the glass panels
+        let mouse = { x: null, y: null, radius: 180 };
         
+        // Track mouse movement across the entire window
         window.addEventListener('mousemove', (e) => {
             mouse.x = e.x;
             mouse.y = e.y;
         });
         
-        // Touch support for mobile devices
         window.addEventListener('touchmove', (e) => {
             mouse.x = e.touches[0].clientX;
             mouse.y = e.touches[0].clientY;
@@ -69,17 +314,10 @@
                 this.baseY = y;
                 this.char = char;
                 this.color = color;
-                // Randomize mass/density for cool varying scatter speeds
                 this.density = (Math.random() * 20) + 5;
             }
             
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.fillText(this.char, this.x, this.y);
-            }
-            
             update() {
-                // Scatter logic
                 if (mouse.x != null) {
                     let dx = mouse.x - this.x;
                     let dy = mouse.y - this.y;
@@ -93,16 +331,14 @@
                         let directionX = forceDirectionX * force * this.density;
                         let directionY = forceDirectionY * force * this.density;
                         
-                        // Move away from mouse
                         this.x -= directionX * 1.5;
                         this.y -= directionY * 1.5;
                     }
                 }
                 
-                // Spring back logic
                 if (this.x !== this.baseX) {
                     let dx = this.x - this.baseX;
-                    this.x -= dx / 15; // smoothness
+                    this.x -= dx / 15;
                 }
                 if (this.y !== this.baseY) {
                     let dy = this.y - this.baseY;
@@ -113,31 +349,25 @@
         
         async function init() {
             try {
-                // Load ASCII text
+                // Fetch assets locally
                 const textResponse = await fetch('ascii-fallen-angel.txt');
                 const text = await textResponse.text();
-                // Avoid empty lines at the end
                 const lines = text.split('\n').filter(line => line.trim().length > 0 || line.length > 0);
                 
-                // Load Source Image
                 const img = new Image();
                 img.src = 'Fallen_Angel_(Alexandre_Cabanel)_crop.jpg';
                 await new Promise(r => img.onload = r);
                 
-                // Make canvas fit the window
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 
-                // Use a temporary canvas to sample colors from the image
                 const imgCanvas = document.createElement('canvas');
                 const imgCtx = imgCanvas.getContext('2d');
                 imgCanvas.width = canvas.width;
                 imgCanvas.height = canvas.height;
-                // Draw the image filling the screen
                 imgCtx.drawImage(img, 0, 0, imgCanvas.width, imgCanvas.height);
                 const imgData = imgCtx.getImageData(0, 0, imgCanvas.width, imgCanvas.height).data;
                 
-                // Calculate grid cells based on ASCII rows/cols
                 const rows = lines.length;
                 let cols = 0;
                 for (let i = 0; i < lines.length; i++) {
@@ -146,7 +376,6 @@
                 
                 const cellWidth = canvas.width / cols;
                 const cellHeight = canvas.height / rows;
-                // Slightly boost font size to ensure overlaps/no gaps
                 const fontSize = Math.min(cellWidth * 1.8, cellHeight * 1.2);
                 
                 ctx.font = `bold ${fontSize}px monospace`;
@@ -154,24 +383,19 @@
                 ctx.textBaseline = 'middle';
                 
                 particles = [];
-                let lastColor = '';
                 
-                // Generate particles
                 for (let y = 0; y < rows; y++) {
                     const line = lines[y];
                     for (let x = 0; x < line.length; x++) {
                         const char = line[x];
-                        // Don't waste performance rendering spaces
                         if (char === ' ') continue;
                         
                         const posX = x * cellWidth + cellWidth / 2;
                         const posY = y * cellHeight + cellHeight / 2;
                         
-                        // Sample color from the pixel
                         const pixelX = Math.floor(posX);
                         const pixelY = Math.floor(posY);
                         
-                        // Bounds checking
                         if (pixelX >= 0 && pixelX < canvas.width && pixelY >= 0 && pixelY < canvas.height) {
                             const index = (pixelY * canvas.width + pixelX) * 4;
                             const r = imgData[index];
@@ -187,17 +411,16 @@
                 loading.style.display = 'none';
                 animate();
             } catch (error) {
-                loading.innerText = 'Error loading assets. Please refresh.';
+                loading.innerText = 'Error loading assets. Please ensure files exist locally.';
                 console.error(error);
             }
         }
         
         function animate() {
-            // Draw slightly transparent black to create subtle trail effect (optional, here we clear entirely)
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Optimization: Set font once
-            const rows = 77; // Roughly
+            // Re-apply context font just in case
+            const rows = 77;
             const cols = 270;
             const cellWidth = canvas.width / cols;
             const cellHeight = canvas.height / rows;
@@ -208,7 +431,6 @@
 
             let lastFill = '';
             for (let i = 0; i < particles.length; i++) {
-                // Batch color changes for performance
                 if (lastFill !== particles[i].color) {
                     ctx.fillStyle = particles[i].color;
                     lastFill = particles[i].color;
@@ -219,13 +441,11 @@
             requestAnimationFrame(animate);
         }
         
-        // Handle resizing
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 loading.style.display = 'block';
-                // Stop current animation loop slightly before resetting (handled naturally by overwriting particles)
                 init();
             }, 500);
         });
