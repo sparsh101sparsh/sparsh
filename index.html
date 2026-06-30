@@ -469,13 +469,7 @@
     
     // Force supersampling (minimum 2x) to create a gorgeous dense mesh effect instead of thin scattered dots
     let dpr = Math.max(window.devicePixelRatio || 1, 2);
-    const mouse = { 
-        x: null, 
-        y: null, 
-        radius: 70 * dpr, 
-        radiusSq: (70 * dpr) * (70 * dpr),
-        square: 45 * dpr
-    };
+    const mouse = { x: null, y: null, radius: 50 * dpr, radiusSq: (50 * dpr) * (50 * dpr) };
 
     window.addEventListener('mousemove',  e => { 
         mouse.x = e.clientX * dpr; 
@@ -613,32 +607,21 @@
 
             // Inlined update physics for maximum execution speed
             if (mouse.x !== null) {
-                let dx = mouse.x - p.x;
+                const dx = mouse.x - p.x;
                 // AABB (Bounding Box) Fast Check: Only do math if particle is roughly near the mouse
                 if (dx > -mouse.radius && dx < mouse.radius) {
-                    let dy = mouse.y - p.y;
+                    const dy = mouse.y - p.y;
                     if (dy > -mouse.radius && dy < mouse.radius) {
                         const distSq = dx*dx + dy*dy;
                         if (distSq < mouse.radiusSq) {
                             const d = Math.sqrt(distSq);
                             const f = (mouse.radius - d) / mouse.radius;
-                            p.x -= (dx/d) * f * p.density * 1.5;
-                            p.y -= (dy/d) * f * p.density * 1.5;
+                            // Much weaker repel force for a subtle distortion effect instead of a hard empty circle
+                            p.x -= (dx/d) * f * p.density * 0.2;
+                            p.y -= (dy/d) * f * p.density * 0.2;
                             moving = true;
                         }
                     }
-                }
-                
-                // Hard Square Limit: rigidly push out any particle that enters the inner square
-                dx = mouse.x - p.x;
-                let dy = mouse.y - p.y;
-                if (Math.abs(dx) < mouse.square && Math.abs(dy) < mouse.square) {
-                    if (Math.abs(dx) > Math.abs(dy)) {
-                        p.x = mouse.x - (dx > 0 ? mouse.square : -mouse.square);
-                    } else {
-                        p.y = mouse.y - (dy > 0 ? mouse.square : -mouse.square);
-                    }
-                    moving = true;
                 }
             }
             
