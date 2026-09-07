@@ -898,12 +898,17 @@
             this.color = color;
             this.density = Math.random() * 20 + 5;
 
-            // Start scattered randomly across the screen for the entrance animation
-            this.x = (Math.random() - 0.5) * cw * 1.5 + cw / 2;
-            this.y = (Math.random() - 0.5) * ch_screen * 1.5 + ch_screen / 2;
-            
             // Random easing for organic, non-uniform assembly
-            this.easing = Math.random() * 0.015 + 0.01; // between 0.01 and 0.025 (slower)
+            this.easing = Math.random() * 0.015 + 0.01; // between 0.01 and 0.025
+
+            // Start animation directly from the dispersed constellation state shown in reference screenshot
+            const initialRandomX = (Math.random() - 0.5) * cw * 1.5 + cw / 2;
+            const initialRandomY = (Math.random() - 0.5) * ch_screen * 1.5 + ch_screen / 2;
+            
+            // Fast-forward by ~105 frames so the entrance animation starts right from this dispersed cloud
+            const progress = Math.pow(1 - this.easing, 105);
+            this.x = this.baseX + (initialRandomX - this.baseX) * progress;
+            this.y = this.baseY + (initialRandomY - this.baseY) * progress;
         }
     }
 
@@ -986,7 +991,7 @@
             // Trigger UI reveal after particles assemble
             setTimeout(() => {
                 document.body.classList.add('show-ui');
-            }, 3800); // Wait 3.8s for the majestic particle assembly
+            }, 2000); // Wait 2.0s for the particle assembly from the dispersed state
 
         } catch(e) {
             console.error(e);
