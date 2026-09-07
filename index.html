@@ -899,16 +899,24 @@
             this.density = Math.random() * 20 + 5;
 
             // Random easing for organic, non-uniform assembly
-            this.easing = Math.random() * 0.015 + 0.01; // between 0.01 and 0.025
+            this.easing = Math.random() * 0.02 + 0.025; // between 0.025 and 0.045
 
-            // Start animation directly from the dispersed constellation state shown in reference screenshot
-            const initialRandomX = (Math.random() - 0.5) * cw * 1.5 + cw / 2;
-            const initialRandomY = (Math.random() - 0.5) * ch_screen * 1.5 + ch_screen / 2;
-            
-            // Fast-forward by ~105 frames so the entrance animation starts right from this dispersed cloud
-            const progress = Math.pow(1 - this.easing, 105);
-            this.x = this.baseX + (initialRandomX - this.baseX) * progress;
-            this.y = this.baseY + (initialRandomY - this.baseY) * progress;
+            // Vector from screen center to this particle's base position
+            const centerX = cw / 2;
+            const centerY = ch_screen / 2;
+            const dx = x - centerX;
+            const dy = y - centerY;
+            const dist = Math.hypot(dx, dy) || 1;
+            const unitX = dx / dist;
+            const unitY = dy / dist;
+
+            // Start exploded OUTWARD so it visibly flies INWARDS to assemble and settle
+            const outwardSpread = dist * (0.28 + Math.random() * 0.22) + (25 + Math.random() * 25) * dpr;
+            const jitterX = (Math.random() - 0.5) * 35 * dpr;
+            const jitterY = (Math.random() - 0.5) * 35 * dpr;
+
+            this.x = this.baseX + unitX * outwardSpread + jitterX;
+            this.y = this.baseY + unitY * outwardSpread + jitterY;
         }
     }
 
@@ -991,7 +999,7 @@
             // Trigger UI reveal after particles assemble
             setTimeout(() => {
                 document.body.classList.add('show-ui');
-            }, 2000); // Wait 2.0s for the particle assembly from the dispersed state
+            }, 1800); // Wait 1.8s for particles to converge inward and settle
 
         } catch(e) {
             console.error(e);
