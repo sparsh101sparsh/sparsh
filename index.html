@@ -894,20 +894,12 @@
         constructor(x, y, ch, color, cw, ch_screen) {
             this.baseX = x;
             this.baseY = y;
+            this.x = x;
+            this.y = y;
             this.ch = ch;
             this.color = color;
             this.density = Math.random() * 20 + 5;
-
-            // Organic non-uniform easing so characters arrive in a natural wave
-            this.easing = Math.random() * 0.02 + 0.02; // between 0.02 and 0.04
-
-            // Characters start independently scattered around their slots across full 360 degrees
-            // (No zooming in or out — characters fly in from all directions to arrange themselves)
-            const angle = Math.random() * Math.PI * 2;
-            const spread = (Math.pow(Math.random(), 1.5) * 110 + 25) * dpr;
-
-            this.x = this.baseX + Math.cos(angle) * spread;
-            this.y = this.baseY + Math.sin(angle) * spread;
+            this.easing = Math.random() * 0.03 + 0.03; // Smooth return easing for mouse interactions
         }
     }
 
@@ -987,10 +979,10 @@
 
             if (!animationId) animationId = requestAnimationFrame(draw);
 
-            // Trigger UI reveal after particles assemble
+            // Trigger UI reveal smoothly on load
             setTimeout(() => {
                 document.body.classList.add('show-ui');
-            }, 2000); // Wait 2.0s for particles to arrange themselves and settle
+            }, 100);
 
         } catch(e) {
             console.error(e);
