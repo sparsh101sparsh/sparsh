@@ -894,12 +894,16 @@
         constructor(x, y, ch, color, cw, ch_screen) {
             this.baseX = x;
             this.baseY = y;
-            this.x = x;
-            this.y = y;
             this.ch = ch;
             this.color = color;
             this.density = Math.random() * 20 + 5;
-            this.easing = Math.random() * 0.03 + 0.03; // Smooth return easing for mouse interactions
+
+            // Start scattered randomly across the screen for the entrance animation
+            this.x = (Math.random() - 0.5) * cw * 1.5 + cw / 2;
+            this.y = (Math.random() - 0.5) * ch_screen * 1.5 + ch_screen / 2;
+            
+            // Random easing for organic, non-uniform assembly
+            this.easing = Math.random() * 0.015 + 0.01; // between 0.01 and 0.025 (slower)
         }
     }
 
@@ -979,10 +983,10 @@
 
             if (!animationId) animationId = requestAnimationFrame(draw);
 
-            // Trigger UI reveal smoothly on load
+            // Trigger UI reveal after particles assemble
             setTimeout(() => {
                 document.body.classList.add('show-ui');
-            }, 100);
+            }, 3800); // Wait 3.8s for the majestic particle assembly
 
         } catch(e) {
             console.error(e);
