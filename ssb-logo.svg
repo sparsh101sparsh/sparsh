@@ -1,30 +1,93 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
   <defs>
     <clipPath id="squircle-ssb">
-      <rect x="0" y="0" width="256" height="256" rx="60" ry="60"/>
+      <rect x="0" y="0" width="256" height="256" rx="56" ry="56"/>
     </clipPath>
-    <linearGradient id="ssb-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#090d16" />
-      <stop offset="100%" stop-color="#111827" />
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="30%" stop-color="#f59e0b" />
+      <stop offset="70%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
     </linearGradient>
-    <linearGradient id="ssb-accent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f97316" />
-      <stop offset="50%" stop-color="#ffffff" />
-      <stop offset="100%" stop-color="#22c55e" />
+    <linearGradient id="navy-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050e1d" />
+      <stop offset="50%" stop-color="#0a192f" />
+      <stop offset="100%" stop-color="#030811" />
     </linearGradient>
+    <radialGradient id="shield-glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#0a192f" stop-opacity="0" />
+    </radialGradient>
   </defs>
+
   <g clip-path="url(#squircle-ssb)">
-    <rect width="256" height="256" fill="url(#ssb-bg)" />
-    <!-- Shield Outline -->
-    <path d="M128 46 L192 74 V128 C192 170 164 204 128 216 C92 204 64 170 64 128 V74 Z" fill="none" stroke="#38bdf8" stroke-width="7" stroke-linejoin="round" opacity="0.9" />
-    <!-- Biometric Passport Card -->
-    <rect x="94" y="92" width="68" height="50" rx="6" fill="#1e293b" stroke="#f8fafc" stroke-width="5" />
-    <circle cx="114" cy="117" r="10" fill="#38bdf8" />
-    <line x1="134" y1="109" x2="152" y2="109" stroke="#f8fafc" stroke-width="4.5" stroke-linecap="round" />
-    <line x1="134" y1="123" x2="148" y2="123" stroke="#94a3b8" stroke-width="4.5" stroke-linecap="round" />
-    <!-- Verification Scan Ray -->
-    <line x1="72" y1="162" x2="184" y2="162" stroke="#22c55e" stroke-width="4" stroke-dasharray="6 4" />
-    <!-- Bottom Tricolor Accent -->
-    <rect x="0" y="246" width="256" height="10" fill="url(#ssb-accent)" />
+    <rect width="256" height="256" fill="url(#navy-bg)" />
+    <circle cx="128" cy="110" r="110" fill="url(#shield-glow)" />
+
+    <!-- Outer Laurel Wreath in Burnished Gold -->
+    <g fill="url(#gold-grad)" opacity="0.85">
+      <path d="M 44 140 C 38 115 48 90 64 72 C 60 84 62 100 70 110 C 58 120 50 130 44 140 Z" />
+      <path d="M 46 165 C 44 150 48 135 56 122 C 58 134 66 144 76 150 C 66 158 56 162 46 165 Z" />
+      <path d="M 58 190 C 54 180 56 168 64 158 C 70 170 80 178 92 182 C 78 188 66 190 58 190 Z" />
+      <path d="M 212 140 C 218 115 208 90 192 72 C 196 84 194 100 186 110 C 198 120 206 130 212 140 Z" />
+      <path d="M 210 165 C 212 150 208 135 200 122 C 198 134 190 144 180 150 C 190 158 200 162 210 165 Z" />
+      <path d="M 198 190 C 202 180 200 168 192 158 C 186 170 176 178 164 182 C 178 188 190 190 198 190 Z" />
+    </g>
+
+    <!-- Main Heraldic Shield of SSB -->
+    <path d="M 64 68 C 64 68 128 54 128 54 C 128 54 192 68 192 68 C 192 128 178 172 128 202 C 78 172 64 128 64 68 Z" 
+          fill="#061224" stroke="url(#gold-grad)" stroke-width="5" stroke-linejoin="round" />
+
+    <!-- Inner Shield Inset with Chain Link border -->
+    <path d="M 72 75 C 72 75 128 63 128 63 C 128 63 184 75 184 75 C 184 125 172 163 128 190 C 84 163 72 125 72 75 Z" 
+          fill="#0b1e3b" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 2" opacity="0.7" />
+
+    <!-- Lion Capital of Ashoka Crest -->
+    <g transform="translate(128, 88) scale(0.95)">
+      <path d="M -7 -24 C -7 -28 -3 -31 0 -31 C 3 -31 7 -28 7 -24 C 9 -22 9 -16 7 -12 C 9 -9 5 -5 3 -3 L 3 -1 L -3 -1 L -3 -3 C -5 -5 -9 -9 -7 -12 C -9 -16 -9 -22 -7 -24 Z" fill="url(#gold-grad)" />
+      <path d="M -8 -22 C -13 -25 -17 -22 -18 -18 C -19 -14 -16 -10 -11 -8 C -9 -7 -7 -7 -5 -8 L -5 -5 L -2 -5 C -2 -11 -5 -16 -8 -22 Z" fill="url(#gold-grad)" />
+      <path d="M 8 -22 C 13 -25 17 -22 18 -18 C 19 -14 16 -10 11 -8 C 9 -7 7 -7 5 -8 L 5 -5 L 2 -5 C 2 -11 5 -16 8 -22 Z" fill="url(#gold-grad)" />
+      <rect x="-18" y="-1" width="36" height="4" rx="1" fill="url(#gold-grad)" />
+      <circle cx="0" cy="9" r="8" fill="none" stroke="url(#gold-grad)" stroke-width="1.8" />
+      <circle cx="0" cy="9" r="2.2" fill="url(#gold-grad)" />
+      <line x1="0" y1="1" x2="0" y2="17" stroke="url(#gold-grad)" stroke-width="1.2" />
+      <line x1="-8" y1="9" x2="8" y2="9" stroke="url(#gold-grad)" stroke-width="1.2" />
+      <line x1="-5.6" y1="3.4" x2="5.6" y2="14.6" stroke="url(#gold-grad)" stroke-width="1.2" />
+      <line x1="-5.6" y1="14.6" x2="5.6" y2="3.4" stroke="url(#gold-grad)" stroke-width="1.2" />
+    </g>
+
+    <!-- Bold Authoritative 'SSB' Typography -->
+    <text x="128" y="146" 
+          font-family="'Times New Roman', Times, 'Cinzel', Georgia, serif" 
+          font-size="38" 
+          font-weight="900" 
+          fill="url(#gold-grad)" 
+          text-anchor="middle" 
+          letter-spacing="4">SSB</text>
+
+    <!-- Secondary Force Subtitle -->
+    <text x="128" y="164" 
+          font-family="'JetBrains Mono', monospace" 
+          font-size="8.5" 
+          font-weight="700" 
+          fill="#93c5fd" 
+          text-anchor="middle" 
+          letter-spacing="2.5">BORDER FORCE</text>
+
+    <!-- Indian National Tricolor Ribbon at Base -->
+    <g transform="translate(0, 186)">
+      <path d="M 54 10 Q 128 22 202 10 L 204 16 Q 128 28 52 16 Z" fill="#FF9933" />
+      <path d="M 52 16 Q 128 28 204 16 L 206 22 Q 128 34 50 22 Z" fill="#FFFFFF" />
+      <circle cx="128" cy="25" r="2" fill="#000080" />
+      <path d="M 50 22 Q 128 34 206 22 L 208 28 Q 128 40 48 28 Z" fill="#138808" />
+
+      <path d="M 54 10 Q 128 22 202 10" stroke="#f59e0b" stroke-width="1" fill="none" />
+      <path d="M 48 28 Q 128 40 208 28" stroke="#f59e0b" stroke-width="1" fill="none" />
+      <line x1="54" y1="10" x2="48" y2="28" stroke="#f59e0b" stroke-width="1" />
+      <line x1="202" y1="10" x2="208" y2="28" stroke="#f59e0b" stroke-width="1" />
+    </g>
+
+    <!-- Top Badge Star Accent -->
+    <polygon points="128,34 131,41 138,42 133,47 134,54 128,50 122,54 123,47 118,42 125,41" fill="url(#gold-grad)" />
   </g>
 </svg>

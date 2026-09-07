@@ -1,20 +1,77 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
   <defs>
     <clipPath id="squircle-ascii">
-      <rect x="0" y="0" width="256" height="256" rx="60" ry="60"/>
+      <rect x="0" y="0" width="256" height="256" rx="56" ry="56"/>
     </clipPath>
-    <linearGradient id="ascii-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#022c22" />
-      <stop offset="100%" stop-color="#064e3b" />
+    <linearGradient id="terminal-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117" />
+      <stop offset="100%" stop-color="#080c14" />
     </linearGradient>
+    <linearGradient id="viewport-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#030712" />
+      <stop offset="100%" stop-color="#0a0f1d" />
+    </linearGradient>
+    <linearGradient id="cyan-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <!-- CRT Scanline Pattern -->
+    <pattern id="scanlines" width="100" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="100" y2="0" stroke="#000000" stroke-width="1.5" opacity="0.4" />
+    </pattern>
   </defs>
+
   <g clip-path="url(#squircle-ascii)">
-    <rect width="256" height="256" fill="url(#ascii-bg)" />
-    <!-- Matrix Character Grid -->
-    <text x="128" y="148" font-family="'JetBrains Mono', monospace" font-size="76" font-weight="900" fill="#34d399" text-anchor="middle" letter-spacing="2">01</text>
-    <rect x="52" y="172" width="152" height="6" rx="3" fill="#10b981" opacity="0.8" />
-    <circle cx="82" cy="76" r="4" fill="#6ee7b7" opacity="0.5" />
-    <circle cx="128" cy="76" r="4" fill="#6ee7b7" opacity="0.8" />
-    <circle cx="174" cy="76" r="4" fill="#6ee7b7" opacity="0.5" />
+    <!-- Chassis Outer Shell -->
+    <rect width="256" height="256" fill="url(#terminal-bg)" />
+    <rect x="2" y="2" width="252" height="252" rx="54" fill="none" stroke="#30363d" stroke-width="2" />
+
+    <!-- Terminal Window Header Bar -->
+    <rect x="18" y="18" width="220" height="28" rx="8" fill="#161b22" />
+    <!-- Window Traffic Lights -->
+    <circle cx="36" cy="32" r="5" fill="#ff5f56" />
+    <circle cx="52" cy="32" r="5" fill="#ffbd2e" />
+    <circle cx="68" cy="32" r="5" fill="#27c93f" />
+    <!-- Terminal Prompt Header -->
+    <text x="136" y="36" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#8b949e" text-anchor="middle" letter-spacing="1.5">ascii_player.sh</text>
+    <!-- Live FPS Tag -->
+    <circle cx="218" cy="32" r="3.5" fill="#38bdf8" />
+
+    <!-- Inner CRT Screen Display -->
+    <rect x="18" y="50" width="220" height="188" rx="8" fill="url(#viewport-bg)" stroke="#1e293b" stroke-width="2" />
+    <rect x="18" y="50" width="220" height="188" fill="url(#scanlines)" opacity="0.6" pointer-events="none" />
+
+    <!-- ASCII Density Character Matrix Atmosphere -->
+    <g font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" fill="#0284c7" opacity="0.45">
+      <text x="32" y="82">#%*</text>
+      <text x="204" y="82" text-anchor="end">@&amp;$</text>
+      <text x="32" y="156">&lt;/&gt;</text>
+      <text x="204" y="156" text-anchor="end">::;</text>
+    </g>
+
+    <!-- Central ASCII Play Glyph: [ ▶ ] -->
+    <!-- Ambient Glow behind playhead -->
+    <circle cx="128" cy="118" r="38" fill="#0284c7" opacity="0.2" />
+
+    <!-- Monospace Brackets -->
+    <text x="80" y="132" font-family="'JetBrains Mono', monospace" font-size="48" font-weight="800" fill="#64748b" text-anchor="middle">[</text>
+    
+    <!-- Bold Video Play Triangle -->
+    <polygon points="116,98 116,138 148,118" fill="url(#cyan-glow)" filter="drop-shadow(0 0 8px rgba(56,189,248,0.7))" />
+    
+    <!-- Closing Bracket -->
+    <text x="176" y="132" font-family="'JetBrains Mono', monospace" font-size="48" font-weight="800" fill="#64748b" text-anchor="middle">]</text>
+
+    <!-- Video Player Progress Scrubber Bar -->
+    <!-- Background Track -->
+    <line x1="36" y1="178" x2="220" y2="178" stroke="#1e293b" stroke-width="5" stroke-linecap="round" />
+    <!-- Active Progress -->
+    <line x1="36" y1="178" x2="132" y2="178" stroke="url(#cyan-glow)" stroke-width="5" stroke-linecap="round" />
+    <!-- Glowing Playhead Knob -->
+    <circle cx="132" cy="178" r="7" fill="#ffffff" stroke="#38bdf8" stroke-width="2.5" filter="drop-shadow(0 0 5px #38bdf8)" />
+
+    <!-- Bottom Status Bar -->
+    <text x="36" y="210" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" fill="#64748b">01:24</text>
+    <text x="220" y="210" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800" fill="#38bdf8" text-anchor="end" letter-spacing="1.5">ASCII.RAW</text>
   </g>
 </svg>
