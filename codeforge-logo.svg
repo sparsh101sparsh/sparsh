@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <clipPath id="squircle-cf">
+      <rect x="0" y="0" width="256" height="256" rx="60" ry="60"/>
+    </clipPath>
+    <linearGradient id="cf-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c0a09" />
+      <stop offset="100%" stop-color="#1c1917" />
+    </linearGradient>
+    <linearGradient id="cf-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#eab308" />
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#squircle-cf)">
+    <rect width="256" height="256" fill="url(#cf-bg)" />
+    <!-- Terminal window header -->
+    <rect x="40" y="48" width="176" height="160" rx="14" fill="#141210" stroke="#292524" stroke-width="4" />
+    <circle cx="62" cy="68" r="5" fill="#ef4444" />
+    <circle cx="78" cy="68" r="5" fill="#f59e0b" />
+    <circle cx="94" cy="68" r="5" fill="#10b981" />
+    <line x1="40" y1="84" x2="216" y2="84" stroke="#292524" stroke-width="2" />
+    <!-- Code Brackets </> -->
+    <path d="M96 114 L68 140 L96 166" fill="none" stroke="url(#cf-glow)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M160 114 L188 140 L160 166" fill="none" stroke="url(#cf-glow)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+    <line x1="138" y1="110" x2="118" y2="170" stroke="#a8a29e" stroke-width="6" stroke-linecap="round" />
+  </g>
+</svg>

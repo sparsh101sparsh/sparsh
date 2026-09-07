@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <clipPath id="squircle-ascii">
+      <rect x="0" y="0" width="256" height="256" rx="60" ry="60"/>
+    </clipPath>
+    <linearGradient id="ascii-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#022c22" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#squircle-ascii)">
+    <rect width="256" height="256" fill="url(#ascii-bg)" />
+    <!-- Matrix Character Grid -->
+    <text x="128" y="148" font-family="'JetBrains Mono', monospace" font-size="76" font-weight="900" fill="#34d399" text-anchor="middle" letter-spacing="2">01</text>
+    <rect x="52" y="172" width="152" height="6" rx="3" fill="#10b981" opacity="0.8" />
+    <circle cx="82" cy="76" r="4" fill="#6ee7b7" opacity="0.5" />
+    <circle cx="128" cy="76" r="4" fill="#6ee7b7" opacity="0.8" />
+    <circle cx="174" cy="76" r="4" fill="#6ee7b7" opacity="0.5" />
+  </g>
+</svg>

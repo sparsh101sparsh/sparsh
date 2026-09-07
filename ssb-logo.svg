@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <clipPath id="squircle-ssb">
+      <rect x="0" y="0" width="256" height="256" rx="60" ry="60"/>
+    </clipPath>
+    <linearGradient id="ssb-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="ssb-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f97316" />
+      <stop offset="50%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#22c55e" />
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#squircle-ssb)">
+    <rect width="256" height="256" fill="url(#ssb-bg)" />
+    <!-- Shield Outline -->
+    <path d="M128 46 L192 74 V128 C192 170 164 204 128 216 C92 204 64 170 64 128 V74 Z" fill="none" stroke="#38bdf8" stroke-width="7" stroke-linejoin="round" opacity="0.9" />
+    <!-- Biometric Passport Card -->
+    <rect x="94" y="92" width="68" height="50" rx="6" fill="#1e293b" stroke="#f8fafc" stroke-width="5" />
+    <circle cx="114" cy="117" r="10" fill="#38bdf8" />
+    <line x1="134" y1="109" x2="152" y2="109" stroke="#f8fafc" stroke-width="4.5" stroke-linecap="round" />
+    <line x1="134" y1="123" x2="148" y2="123" stroke="#94a3b8" stroke-width="4.5" stroke-linecap="round" />
+    <!-- Verification Scan Ray -->
+    <line x1="72" y1="162" x2="184" y2="162" stroke="#22c55e" stroke-width="4" stroke-dasharray="6 4" />
+    <!-- Bottom Tricolor Accent -->
+    <rect x="0" y="246" width="256" height="10" fill="url(#ssb-accent)" />
+  </g>
+</svg>
