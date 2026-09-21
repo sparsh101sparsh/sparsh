@@ -1,0 +1,53 @@
+name: Validate Portfolio Assets
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Pillow
+        run: pip install Pillow
+
+      - name: Validate SVGs and Embedded Images
+        run: |
+          python -c "
+          import os, re, base64, io, sys
+          from PIL import Image
+
+          svgs = [f for f in os.listdir('.') if f.endswith('.svg')]
+          print(f'Checking {len(svgs)} SVG files...')
+
+          failed = False
+          for s in svgs:
+              content = open(s, 'r', encoding='utf-8', errors='ignore').read()
+              matches = re.findall(r'data:image/(?:jpeg|png);base64,([^\"]+)', content)
+              if matches:
+                  for idx, b64 in enumerate(matches):
+                      try:
+                          data = base64.b64decode(b64.strip())
+                          img = Image.open(io.BytesIO(data))
+                          img.load()
+                          print(f'  ✓ {s} embedded image #{idx+1}: valid ({img.size[0]}x{img.size[1]})')
+                      except Exception as e:
+                          print(f'  ✗ {s} embedded image #{idx+1}: CORRUPT ({e})')
+                          failed = True
+              else:
+                  print(f'  ✓ {s}: valid vector SVG')
+
+          if failed:
+              sys.exit(1)
+          print('All assets passed integrity checks!')
+          "
