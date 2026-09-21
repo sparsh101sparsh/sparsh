@@ -21,7 +21,7 @@ As you scroll through the workspace, the background reacts dynamically with dept
 | **NETRA** | Institutional-grade cyber-defense & forensic AI threat intelligence platform. Detects facial deepfakes, synthetic audio clones, and document tampering. | Multi-modal Deep Learning, FastAPI, Meta WhatsApp Cloud API | [Live](https://netra-deepfake-detector.vercel.app) • [GitHub](https://github.com/sparsh101sparsh/netra-deepfake-detector) |
 | **NullNote** | Real-time timestamped video note-taking browser extension with cross-platform synchronization across web and mobile. | Chrome MV3 Extension, Next.js, Cloudflare Workers | [GitHub](https://github.com/sparsh101sparsh/NullNoteproject) |
 | **SSB Smart Screening** | Air-gapped edge AI document inspection workstation engineered for Sashastra Seema Bal (SIH 2026). Features ICAO 9303 MRZ parsing, RSA-2048 PKI validation, and AdaFace 1:1 biometric matching. | Edge AI, Python, Android Companion, OpenCV | [GitHub](https://github.com/sparsh101sparsh/sih26188-ssb-document-screening) |
-| **CodeForge** | Interactive competitive coding and algorithmic workspace with 600+ curated problems, Monaco editor, visualizers, and 1v1 battle rooms. | React, Monaco Editor, WebSockets, Node.js | [Live](https://hackathon2-olive-eight.vercel.app) • [GitHub](https://github.com/sparsh101sparsh/hackathon3) |
+| **CodeRev** | Interactive competitive coding and algorithmic workspace with 600+ curated problems, Monaco editor, visualizers, and 1v1 battle rooms. | React, Monaco Editor, WebSockets, Node.js | [Live](https://hackathon2-olive-eight.vercel.app) • [GitHub](https://github.com/sparsh101sparsh/CodeRev) |
 | **ASCII Video Player & Image Studio** | Real-time in-browser video and image rendering engine translating video streams into animated ASCII characters. | HTML5 Canvas, Custom Luminance Mapping, Web Workers | [GitHub](https://github.com/sparsh101sparsh/ascii-video-player) |
 
 ---
@@ -29,7 +29,7 @@ As you scroll through the workspace, the background reacts dynamically with dept
 ## Asset & Design Language System
 
 All project branding icons are engineered with a unified squircle aesthetic:
-- **NullNote, CodeForge, ASCII Studio:** 3D frosted/faceted elements embedded in vector `<svg>` wrappers with hardware-accelerated `<clipPath>` squircles (`rx="60"`).
+- **NullNote, CodeRev, ASCII Studio:** 3D frosted/faceted elements embedded in vector `<svg>` wrappers with hardware-accelerated `<clipPath>` squircles (`rx="60"`).
 - **SSB & NETRA:** Authentic Indian defense crests and forensic eye badges with dark-mode contrast optimization.
 - **Automated Validation:** GitHub Actions workflow (`.github/workflows/validate.yml`) verifies byte integrity of all embedded graphics on every push.
 
