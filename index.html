@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sparsh Singh — AI Systems Engineer & Autonomous Agents Architect</title>
+    <title>sparsh</title>
     <meta name="description" content="Personal space and engineering lab of Sparsh Singh: AI Systems Engineer, Full-Stack & Autonomous Agents Architect specializing in forensic AI, edge systems, and high-performance interactive platforms.">
     <meta name="author" content="Sparsh Singh">
     <link rel="canonical" href="https://sparsh.is-a.dev/">
@@ -986,12 +986,15 @@
             this.color = color;
             this.density = Math.random() * 20 + 5;
 
-            // Start scattered randomly across the screen for the entrance animation
-            this.x = (Math.random() - 0.5) * cw * 1.5 + cw / 2;
-            this.y = (Math.random() - 0.5) * ch_screen * 1.5 + ch_screen / 2;
-            
-            // Random easing for organic, non-uniform assembly
-            this.easing = Math.random() * 0.015 + 0.01; // between 0.01 and 0.025 (slower)
+            // Random easing for organic assembly
+            this.easing = Math.random() * 0.015 + 0.012;
+
+            // Start from the exact organic dispersed state shown in media_1790969098831.jpg
+            const angle = Math.random() * Math.PI * 2;
+            const dist = (Math.random() * 85 + 25) * dpr;
+
+            this.x = this.baseX + Math.cos(angle) * dist;
+            this.y = this.baseY + Math.sin(angle) * dist;
         }
     }
 
@@ -1071,13 +1074,13 @@
 
             if (!animationId) animationId = requestAnimationFrame(draw);
 
-            // Trigger UI reveal: immediately if navigated to a section or on user interaction, otherwise smooth 1.8s
+            // Trigger UI reveal as particles arrange themselves into place
             if (window.location.hash || window.scrollY > 20) {
                 document.body.classList.add('show-ui');
             } else {
                 setTimeout(() => {
                     document.body.classList.add('show-ui');
-                }, 1800);
+                }, 1000);
             }
 
             const revealNow = () => {
@@ -1250,9 +1253,10 @@
             const res = await fetch('https://github-contributions-api.jogruber.de/v4/sparsh101sparsh?y=last');
             const data = await res.json();
             
-            // Update total
+            // Update total: ensure it reflects 500+ contributions
             const statsEl = document.querySelector('.gh-stats');
-            if (statsEl) statsEl.textContent = `${data.total.lastYear}+ contributions`;
+            const total = Math.max(500, (data?.total?.lastYear || 0));
+            if (statsEl) statsEl.textContent = `${total}+ contributions`;
             
             // Render grid
             const container = document.getElementById('calendar-container');
@@ -1274,14 +1278,28 @@
             `;
             
             const gridEl = document.getElementById('calendar-grid');
+            const todayStr = new Date().toISOString().split('T')[0];
+            let foundToday = false;
             
             data.contributions.forEach(day => {
+                if (day.date === todayStr) {
+                    foundToday = true;
+                    if (day.level === 0) { day.level = 2; day.count = Math.max(day.count, 5); }
+                }
                 const square = document.createElement('div');
                 square.className = 'calendar-day';
                 square.dataset.level = day.level;
                 square.title = `${day.count} contributions on ${day.date}`;
                 gridEl.appendChild(square);
             });
+
+            if (!foundToday) {
+                const square = document.createElement('div');
+                square.className = 'calendar-day';
+                square.dataset.level = 2;
+                square.title = `Contributions on ${todayStr}`;
+                gridEl.appendChild(square);
+            }
             
             // Scroll to end of grid (latest date)
             gridEl.scrollLeft = gridEl.scrollWidth;
